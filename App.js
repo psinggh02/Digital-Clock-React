@@ -1,24 +1,38 @@
-import React, { Component } from 'react';
-import './App.css';
-import ReactDOM from 'react-dom';
-import DigitalClock from './digital-clock';
-import ScoringMeter from './scoring-meter';
+class DigitalClock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: this.getTime()
+    }
+  }
+  getTime(){
+    return new Date().toLocaleTimeString();
+  }
+  componentWillMount() {
+    setInterval(() =>{
+      this.setState({
+        time: this.getTime()
+      })
+    }, 1000);
+  }
 
-const options = {
-    value: 60,
-    currentValueText: "Overall Match Confidence", //add ${value} to show the value as well
-}	
+  render() {
+    return (
+      <div id="clock">{this.state.time}</div>
+    );
+  }
+}
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className="App">
         <div className="App-header">
-            <ScoringMeter options={options}/>
+            <DigitalClock />
         </div>
       </div>
     );
   }
 }
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('root'));
